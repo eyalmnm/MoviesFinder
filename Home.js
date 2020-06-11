@@ -1,10 +1,7 @@
 'use strict';
 
-import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import { StyleSheet, Text, TextInput, View, Button, ActivityIndicator, Image, } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 
 export default class Home extends React.Component {
     render() {
@@ -20,14 +17,14 @@ export default class Home extends React.Component {
             <View style={styles.buttonsView}>
                 <View style={{flex:0.5 , marginRight:5}} >
                 <Button style={styles.button}
-                    onPress={() =>navigation.navigate('MoviesList')}
+                    onPress={() =>this.props.navigation.navigate('Movies')}
                     color='#48BBEC'
                     title='Google'
                     />
                 </View>
                 <View style={{flex:0.5 , marginLeft:5}} >
                     <Button style={styles.button}
-                    onPress={() =>navigation.navigate('MoviesList')}
+                    onPress={() =>this.props.navigation.navigate('Movies')}
                     color='#48BBEC'
                     title='Facebook'
                     />
@@ -36,19 +33,6 @@ export default class Home extends React.Component {
             </View>
         );
     }
-}
-
-const Stack = createStackNavigator();
-
-function App() {
-    return (
-        <NavigationContainer>
-            <Stack.Navigator initialRoutName="Home">
-                <Stack.Screen name="Home" component={ HomeScreen} />
-                <Stack.Screen name="MoviesList" component={ MoviesList} />
-            </Stack.Navigator>
-        </NavigationContainer>
-    );
 }
 
 const styles = StyleSheet.create({
