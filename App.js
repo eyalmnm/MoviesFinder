@@ -1,23 +1,16 @@
+import { createStackNavigator } from 'react-navigation-stack';
+import { createAppContainer } from 'react-navigation'
 import React from 'react';
-import AppNavigator from './AppNavigator';
+import { Text } from 'react-native';
+import Home from './Home';
+import Movies from './Movies'
 
-// Ref: https://www.digitalocean.com/community/tutorials/react-react-native-navigation
 
-export default class App extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      possibleFriends: [
-        'Allie',
-        'Gator',
-        'Lizzie',
-      ],
-      currentFriends: [],
-    }
-  }
-    render() {
-        return (
-        <AppNavigator/>
-        );
-    }
-}
+const AppNavigator = createStackNavigator({
+  Home: { screen: Home },
+  Movies: { screen: Movies },
+});
+
+const App = createAppContainer(AppNavigator)
+
+export default App;
