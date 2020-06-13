@@ -1,36 +1,48 @@
 'use strict';
 
-import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View, Button, ActivityIndicator, Image, } from 'react-native';
+import React, { PureComponent } from 'react';
+import { StyleSheet, Text, FlatList, View, TouchableOpacity, ActivityIndicator, Image, } from 'react-native';
+import MoviesCard from './MoviesCard'
 
-export default class Movies extends React.Component {
+
+const tmdbUrl = 'https://api.themoviedb.org/3/movie/popular?api_key=a9bc1e5ee1bd399be8f1812027534e2d&language=en-US&page=1'
+const posterPathBaseUrl = 'https://image.tmdb.org/t/p/w500'
+
+
+export default class Movies extends React.PureComponent {
+    // State Holder
+    state = {
+        moviesList: [],
+        loading: true,
+    }
+
+    static navigationOptions = {
+        title: 'Movies List'
+    }
+
+    async componentDidMount() {
+        try {
+            const moviesApiCall = await fetch(tmdbUrl);
+            const apiResponse = await moviesApiCall.json();
+            this.setState({moviesList: apiResponse.results, loading: false});
+        } catch(err) {
+            console.log("Error occurs while fetching data", err);
+        }
+    }
+
     render() {
-        return (
-            <View style={styles.container}>
-            <Text style={styles.description}>
-                Search for movies to watch!
-            </Text>
-            <Image source={require('./Resources/movie-512.png')} style={styles.image} />
-            <Text style={styles.description}>
-                Please login in order to use this service!
-            </Text>
-            <View style={styles.buttonsView}>
-                <View style={{flex:0.5 , marginRight:5}} >
-                <Button style={styles.button}
-                    onPress={() =>this.props.navigation.navigate('Movies')}
-                    color='#48BBEC'
-                    title='Google'
-                    />
-                </View>
-                <View style={{flex:0.5 , marginLeft:5}} >
-                    <Button style={styles.button}
-                    onPress={() =>this.props.navigation.navigate('Movies')}
-                    color='#48BBEC'
-                    title='Facebook'
-                    />
-                </View>
-            </View>
-            </View>
-        );
+        const { moviesList, loading } = this.state;
+        const { navigation } = this.props;
+        if(loading) {
+            return (<ActivityIndicator />)
+        } else {
+            return (
+                <FlatList 
+                    data={moviesList}
+                    renderItem={(data) => <MoviesCard {...data.item } navigation={ navigation } />}
+                    keyExtractor={(item) => [item.title, item.poster_path, item.vote_average, item.overview]}
+                />
+            )
+        }
     }
 }

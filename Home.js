@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View, Button, ActivityIndicator, Image, } from 'react-native';
+import { StyleSheet, Text, View, Button, ActivityIndicator, Image, } from 'react-native';
 
 export default class Home extends React.Component {
     render() {
